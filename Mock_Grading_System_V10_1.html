@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a5276">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mock Grading">
+    <link rel="manifest" href="manifest.json">
+    <title>MOCK GRADING SYSTEM - Mock Grading System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-dark: #154360;
+            --secondary: #f39c12;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --shadow: 0 10px 40px rgba(0, 0, 0, .1);
+            --radius: 12px
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            color: var(--dark)
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 12px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .school-badge {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--primary)
+        }
+
+        .school-info h1 {
+            font-size: 1rem;
+            font-weight: 700
+        }
+
+        .school-info p {
+            font-size: .7rem;
+            opacity: .9
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, .15);
+            border-radius: 50px;
+            padding: 3px;
+            flex-wrap: wrap
+        }
+
+        .nav-tab {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s;
+            background: transparent;
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .15)
+        }
+
+        .nav-tab:hover:not(.active) {
+            color: white
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn .3s ease
+        }
+
+        .page.active {
+            display: block
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+            overflow: hidden;
+            margin-bottom: 20px
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .card-header h2 {
+            font-size: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .card-header h2 i {
+            color: var(--primary)
+        }
+
+        .card-body {
+            padding: 20px
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark)
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white
+        }
+
+        .btn-success:hover {
+            background: #219a52
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: white
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary)
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: .75rem
+        }
+
+        .btn-xs {
+            padding: 4px 10px;
+            font-size: .7rem
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .form-label {
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: .5px
+        }
+
+        .form-input,
+        .form-select {
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .85rem;
+            outline: none;
+            transition: all .2s
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 82, 118, .08)
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .78rem
+        }
+
+        .data-table thead {
+            background: var(--primary);
+            color: white
+        }
+
+        .data-table th {
+            padding: 10px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: .72rem;
+            border: 1px solid rgba(255, 255, 255, .2);
+            white-space: nowrap
+        }
+
+        .data-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #e8e8e8;
+            white-space: nowrap
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background: #f8f9fa
+        }
+
+        .data-table tbody tr:hover {
+            background: #e3f2fd
+        }
+
+        .data-table td input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: .75rem;
+            padding: 4px;
+            outline: none
+        }
+
+        .data-table td input:focus {
+            background: #fff3e0
+        }
+
+        .data-table .student-name {
+            text-align: left !important;
+            font-weight: 600
+        }
+
+        .data-table .total-cell {
+            font-weight: 700;
+            background: #fff8e1
+        }
+
+        .data-table .grade-cell {
+            font-weight: 700
+        }
+
+        .data-table .pos-cell {
+            font-weight: 700;
+            color: var(--primary)
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap
+        }
+
+        .sub-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #e0e0e0;
+            background: white;
+            transition: all .2s
+        }
+
+        .sub-tab.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white
+        }
+
+        .sub-tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary)
+        }
+
+        .mock-tab {
+            padding: 6px 10px;
+            font-size: .7rem
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px
+        }
+
+        .modal-overlay.active {
+            display: flex
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, .3)
+        }
+
+        .modal-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .modal-header h3 {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gray);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: var(--danger)
+        }
+
+        .modal-body {
+            padding: 22px
+        }
+
+        .modal-footer {
+            padding: 14px 22px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a5276, #0d1b2a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow: hidden
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(46, 204, 113, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08) 0%, transparent 60%);
+            animation: floatOrbs 20s ease-in-out infinite;
+            pointer-events: none
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        @keyframes floatOrbs {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) }
+            33% { transform: translate(30px, -30px) rotate(2deg) }
+            66% { transform: translate(-20px, 20px) rotate(-1deg) }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            animation: cardEnter 0.6s ease-out;
+            position: relative;
+            z-index: 1
+        }
+
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(30px) scale(0.95) }
+            to { opacity: 1; transform: translateY(0) scale(1) }
+        }
+
+        .login-header {
+            padding: 40px 35px 30px;
+            text-align: center;
+            background: transparent;
+            color: white;
+            position: relative
+        }
+
+        .login-badge-wrap {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative
+        }
+
+        .login-badge-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2ecc71, #9b59b6, #3498db);
+            background-size: 300% 300%;
+            animation: borderRotate 4s linear infinite;
+            z-index: 0
+        }
+
+        .login-badge-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(15, 32, 39, 0.9);
+            z-index: 1
+        }
+
+        .login-badge-wrap .school-badge {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            font-size: 32px
+        }
+
+        @keyframes borderRotate {
+            0% { background-position: 0% 50% }
+            100% { background-position: 300% 50% }
+        }
+
+        .login-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2)
+        }
+
+        .login-header .subtitle {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-top: 4px
+        }
+
+        .login-header .mock-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin-top: 14px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px)
+        }
+
+        .login-body {
+            padding: 0 35px 35px
+        }
+
+        .login-input-group {
+            position: relative;
+            margin-bottom: 20px
+        }
+
+        .login-input-group input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease
+        }
+
+        .login-input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.85rem
+        }
+
+        .login-input-group input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(52, 152, 219, 0.6);
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1), 0 0 20px rgba(52, 152, 219, 0.15)
+        }
+
+        .login-input-group i.input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            transition: color 0.3s ease
+        }
+
+        .login-input-group input:focus + i.input-icon,
+        .login-input-group input:not(:placeholder-shown) + i.input-icon {
+            color: #3498db
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease
+        }
+
+        .login-btn:hover::before {
+            left: 100%
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4)
+        }
+
+        .login-btn:active {
+            transform: translateY(0)
+        }
+
+        .login-footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6
+        }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.75rem
+        }
+
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.12)
+        }
+
+        .login-alert-modern {
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: shake 0.4s ease;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            background: rgba(231, 76, 60, 0.12);
+            color: #ff8a80
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) }
+            20% { transform: translateX(-6px) }
+            40% { transform: translateX(6px) }
+            60% { transform: translateX(-4px) }
+            80% { transform: translateX(4px) }
+        }
+
+        .login-input-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: color 0.2s ease
+        }
+
+        .login-input-group .toggle-password:hover {
+            color: rgba(255, 255, 255, 0.8)
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .85rem
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 3px solid var(--success)
+        }
+
+        .alert-danger {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 3px solid var(--danger)
+        }
+
+        .alert-warning {
+            background: #fff8e1;
+            color: #e65100;
+            border-left: 3px solid var(--warning)
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: var(--gray);
+            font-size: .75rem
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray)
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: .4
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 600
+        }
+
+        .school-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%
+        }
+
+        #reportLogo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%
+        }
+
+        .student-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--gray);
+            flex-shrink: 0;
+            overflow: hidden
+        }
+
+        .student-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .student-photo-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--gray);
+            flex-shrink: 0;
+            overflow: hidden
+        }
+
+        .master-sheet-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px
+        }
+
+        .master-view-tab {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            transition: all .2s;
+            background: white;
+            color: var(--primary)
+        }
+
+        .master-view-tab.active {
+            background: var(--primary);
+            color: white
+        }
+
+        /* Print */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 4mm
+            }
+
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important
+            }
+
+            .header,
+            .nav-tabs,
+            .btn,
+            .alert,
+            .sub-tabs,
+            .modal-overlay,
+            .no-print {
+                display: none !important
+            }
+
+            .page {
+                display: none !important
+            }
+
+            .page.active {
+                display: block !important
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                margin: 0 !important
+            }
+
+            .data-table {
+                font-size: 6.5px !important
+            }
+
+            .data-table th {
+                padding: 3px 2px !important;
+                font-size: 6px !important
+            }
+
+            .data-table td {
+                padding: 2px 3px !important
+            }
+
+            #reportCard {
+                display: block !important;
+                page-break-after: avoid !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important
+            }
+
+            .master-table thead {
+                display: table-header-group
+            }
+
+            /* Report card print optimizations */
+            .rpt-header {
+                padding: 6px 10px !important;
+                gap: 8px !important
+            }
+
+            .rpt-header h1 {
+                font-size: 12px !important
+            }
+
+            .rpt-header p {
+                font-size: 7px !important
+            }
+
+            #reportLogo {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 16px !important
+            }
+
+            .rpt-info {
+                padding: 4px 10px !important
+            }
+
+            .rpt-info h2 {
+                font-size: 12px !important
+            }
+
+            .rpt-info p {
+                font-size: 8px !important
+            }
+
+            #rptPhoto {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 16px !important
+            }
+
+            #rptPhotoImg {
+                width: 40px !important;
+                height: 40px !important
+            }
+
+            #rptPhoto {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 16px !important
+            }
+
+            #rptPhotoImg {
+                width: 40px !important;
+                height: 40px !important
+            }
+
+            .rpt-body {
+                padding: 6px 10px !important
+            }
+
+            .rpt-stats {
+                gap: 4px !important;
+                margin-bottom: 4px !important
+            }
+
+            .rpt-stats div {
+                padding: 3px !important;
+                border-radius: 4px !important
+            }
+
+            .rpt-stats div div:first-child {
+                font-size: 14px !important
+            }
+
+            .rpt-stats div div:last-child {
+                font-size: 6px !important
+            }
+
+            .rpt-table-wrap {
+                margin-bottom: 4px !important;
+                border-radius: 4px !important
+            }
+
+            .rpt-table {
+                font-size: 8px !important
+            }
+
+            .rpt-table th {
+                padding: 3px 6px !important
+            }
+
+            .rpt-table td {
+                padding: 2px 6px !important
+            }
+
+            .rpt-gradekey {
+                padding: 3px 6px !important;
+                margin-bottom: 4px !important
+            }
+
+            .rpt-gradekey p {
+                font-size: 6px !important
+            }
+
+            .rpt-footer {
+                padding-top: 3px !important;
+                margin-top: 3px !important
+            }
+
+            .rpt-footer p {
+                font-size: 6px !important
+            }
+        }
+
+        body.printing-report #page-reports .card:not(#reportCard) {
+            display: none !important
+        }
+
+        body.printing-report #reportCard {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            box-shadow: none !important
+        }
+
+        body.printing-master #page-master {
+            display: block !important
+        }
+
+        body.printing-master .page:not(#page-master) {
+            display: none !important
+        }
+
+        body.printing-master .card-header .btn {
+            display: none !important
+        }
+
+        body.printing-tally #page-tally {
+            display: block !important
+        }
+
+        body.printing-tally .page:not(#page-tally) {
+            display: none !important
+        }
+
+        body.printing-tally .card-header .btn {
+            display: none !important
+        }
+
+        body.printing-analysis #page-analysis {
+            display: block !important
+        }
+
+        body.printing-analysis .page:not(#page-analysis) {
+            display: none !important
+        }
+
+        body.printing-analysis .card-header .btn {
+            display: none !important
+        }
+
+        .mock-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 6px;
+            vertical-align: middle
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-badge-wrap">
+                    <div class="school-badge">
+                        <i class="fas fa-graduation-cap" id="loginLogoIcon"></i>
+                        <img id="loginLogoImg" src=""
+                            style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;position:relative;z-index:3;">
+                    </div>
+                </div>
+                <h2>BAREKESE D/A JHS 'A'</h2>
+                <p class="subtitle">BECE Mock Grading System</p>
+                <div class="mock-pill">
+                    <i class="fas fa-clipboard-list"></i> Mock 1 – Mock 15
+                </div>
+            </div>
+            <div class="login-body">
+                <div id="loginAlert"></div>
+                <div class="login-input-group">
+                    <input type="text" id="loginUser" placeholder="Enter username" autocomplete="off">
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="login-input-group">
+                    <input type="password" id="loginPass" placeholder="Enter password">
+                    <i class="fas fa-lock input-icon"></i>
+                    <i class="fas fa-eye toggle-password" id="togglePass" onclick="togglePassword()"></i>
+                </div>
+                <button type="button" class="login-btn" onclick="doLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div class="login-divider">Support</div>
+                <p class="login-footer-text">
+                    <i class="fas fa-phone-alt" style="margin-right:4px;"></i> @Owusu Labs<br>
+                    0249445742 / 0209089245
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp" style="display:none;">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="school-badge" id="headerLogo" style="overflow:hidden;"><i class="fas fa-graduation-cap"
+                            id="headerLogoIcon"></i><img id="headerLogoImg" src=""
+                            style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;"></div>
+                    <div class="school-info">
+                        <h1>BAREKESE D/A JHS 'A' <span class="mock-badge">MOCK</span></h1>
+                        <p>Mock Grading System — Mocks 1 to 15</p>
+                    </div>
+                </div>
+                <div class="nav-tabs">
+                    <button type="button" class="nav-tab active" onclick="switchPage('database')" id="tab-database"><i
+                            class="fas fa-database"></i> Database</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('tally')" id="tab-tally"><i
+                            class="fas fa-edit"></i> Tally</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('master')" id="tab-master"><i
+                            class="fas fa-table"></i> Master</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('reports')" id="tab-reports"><i
+                            class="fas fa-file-pdf"></i> Reports</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('analysis')" id="tab-analysis"><i
+                            class="fas fa-chart-bar"></i> Analysis</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('help')" id="tab-help"><i
+                            class="fas fa-question-circle"></i> Help</button>
+                    <button type="button" class="nav-tab" onclick="switchPage('settings')" id="tab-settings"><i
+                            class="fas fa-cog"></i> Settings</button>
+                    <button type="button" class="nav-tab" onclick="doLogout()"
+                        style="background:rgba(231,76,60,.2);color:#ffebee;"><i class="fas fa-sign-out-alt"></i>
+                        Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-container">
+
+            <!-- ===== DATABASE PAGE ===== -->
+            <div class="page active" id="page-database">
+                <div class="sub-tabs">
+                    <button type="button" class="sub-tab active" onclick="switchClassTab('JHS3')" id="db-tab-JHS3">JHS 3
+                        (Basic 9)</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-users"></i> <span id="dbTitle">JHS 3 Candidate Database</span></h2>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" class="btn btn-success btn-sm" onclick="openStudentModal()"><i
+                                    class="fas fa-plus"></i> Add Candidate</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="clearClassData()"><i
+                                    class="fas fa-trash"></i> Clear Class</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="dbAlert"></div>
+                        <p style="font-size:.82rem;color:var(--gray);margin-bottom:12px;">Add all candidates for this
+                            class. Names will auto-appear in all Mock tally sheets.</p>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;">SN</th>
+                                        <th style="width:60px;">Photo</th>
+                                        <th style="text-align:left;">Candidate Name</th>
+                                        <th>Gender</th>
+                                        <th>Index Number</th>
+                                        <th style="text-align:center;width:90px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dbTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="dbEmpty" style="display:none;"><i class="fas fa-user-plus"></i>
+                            <h3>No Candidates Added</h3>
+                            <p>Click "Add Candidate" to build your class database.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TALLY SHEETS PAGE ===== -->
+            <div class="page" id="page-tally">
+                <div class="sub-tabs">
+                    <button type="button" class="sub-tab active" onclick="switchTallyClass('JHS3')"
+                        id="tally-tab-JHS3">JHS 3</button>
+                </div>
+                <!-- Mock selector row -->
+                <div class="sub-tabs" style="margin-top:0;">
+                    <span
+                        style="font-size:.78rem;font-weight:700;color:var(--primary);align-self:center;margin-right:4px;">MOCK:</span>
+                    <button type="button" class="sub-tab mock-tab active" onclick="switchMock(1)"
+                        id="mock-tab-1">1</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(2)" id="mock-tab-2">2</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(3)" id="mock-tab-3">3</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(4)" id="mock-tab-4">4</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(5)" id="mock-tab-5">5</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(6)" id="mock-tab-6">6</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(7)" id="mock-tab-7">7</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(8)" id="mock-tab-8">8</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(9)" id="mock-tab-9">9</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(10)" id="mock-tab-10">10</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(11)" id="mock-tab-11">11</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(12)" id="mock-tab-12">12</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(13)" id="mock-tab-13">13</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(14)" id="mock-tab-14">14</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMock(15)" id="mock-tab-15">15</button>
+                </div>
+                <!-- Subject selector row -->
+                <div class="sub-tabs" style="margin-top:0;">
+                    <span
+                        style="font-size:.78rem;font-weight:700;color:var(--primary);align-self:center;margin-right:4px;">SUBJECT:</span>
+                    <button type="button" class="sub-tab mock-tab active" onclick="switchTallySubject('ENGLISH')"
+                        id="subj-tab-ENGLISH">English</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('MATHS')"
+                        id="subj-tab-MATHS">Maths</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('SCIENCE')"
+                        id="subj-tab-SCIENCE">Science</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('SOCIAL')"
+                        id="subj-tab-SOCIAL">Social</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('RME')"
+                        id="subj-tab-RME">RME</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('ICT')"
+                        id="subj-tab-ICT">Computing</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('TWILANG')"
+                        id="subj-tab-TWILANG">Twi</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('FRENCH')"
+                        id="subj-tab-FRENCH" style="position:relative;">French <span
+                            style="font-size:.55rem;background:#e74c3c;color:white;padding:1px 4px;border-radius:8px;margin-left:2px;">OPT</span></button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('BDT')"
+                        id="subj-tab-BDT">BDT</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('CREATIVE')"
+                        id="subj-tab-CREATIVE">Creative</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchTallySubject('ARABIC')"
+                        id="subj-tab-ARABIC" style="position:relative;">Arabic <span
+                            style="font-size:.55rem;background:#e74c3c;color:white;padding:1px 4px;border-radius:8px;margin-left:2px;">OPT</span></button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-edit"></i> <span id="tallyTitle">JHS 3 - Mock 1 - English Language Tally
+                                Sheet</span></h2>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" class="btn btn-success btn-sm" onclick="saveTallyScores()"><i
+                                    class="fas fa-save"></i> Save Scores</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="printTally()"><i
+                                    class="fas fa-print"></i> Print</button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:10px;">
+                        <div id="tallyAlert"></div>
+                        <div style="font-size:.78rem;color:var(--gray);margin-bottom:8px;">
+                            <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                            French and Arabic are <strong>optional</strong> subjects. Enter scores only for students
+                            taking them.
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="data-table" id="tallyTable">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">SN</th>
+                                        <th rowspan="2" style="text-align:left;min-width:180px;">CANDIDATE'S NAME</th>
+                                        <th rowspan="2">CLASS</th>
+                                        <th rowspan="2">EXAM SCORE<br>(Raw Score / 100)</th>
+                                        <th rowspan="2">GRADE</th>
+                                        <th rowspan="2">POSITION</th>
+                                        <th rowspan="2">REMARKS</th>
+                                    </tr>
+                                    <tr></tr>
+                                </thead>
+                                <tbody id="tallyTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MASTER SHEET PAGE ===== -->
+            <div class="page" id="page-master">
+                <div class="sub-tabs">
+                    <button type="button" class="sub-tab active" onclick="switchMasterClass('JHS3')"
+                        id="master-tab-JHS3">JHS 3</button>
+                </div>
+                <!-- Mock selector -->
+                <div class="sub-tabs" style="margin-top:0;">
+                    <span
+                        style="font-size:.78rem;font-weight:700;color:var(--primary);align-self:center;margin-right:4px;">MOCK:</span>
+                    <button type="button" class="sub-tab mock-tab active" onclick="switchMasterMock(1)"
+                        id="master-mock-tab-1">1</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(2)"
+                        id="master-mock-tab-2">2</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(3)"
+                        id="master-mock-tab-3">3</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(4)"
+                        id="master-mock-tab-4">4</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(5)"
+                        id="master-mock-tab-5">5</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(6)"
+                        id="master-mock-tab-6">6</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(7)"
+                        id="master-mock-tab-7">7</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(8)"
+                        id="master-mock-tab-8">8</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(9)"
+                        id="master-mock-tab-9">9</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(10)"
+                        id="master-mock-tab-10">10</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(11)"
+                        id="master-mock-tab-11">11</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(12)"
+                        id="master-mock-tab-12">12</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(13)"
+                        id="master-mock-tab-13">13</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(14)"
+                        id="master-mock-tab-14">14</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchMasterMock(15)"
+                        id="master-mock-tab-15">15</button>
+                </div>
+                <!-- View toggle: Raw Scores vs Grades/Aggregate -->
+                <div class="master-sheet-tabs no-print">
+                    <button type="button" class="master-view-tab active" id="masterViewRaw"
+                        onclick="switchMasterView('raw')"><i class="fas fa-sort-numeric-up"></i> Raw Scores
+                        Master</button>
+                    <button type="button" class="master-view-tab" id="masterViewGrades"
+                        onclick="switchMasterView('grades')"><i class="fas fa-star"></i> Grades &amp; Aggregate
+                        Master</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-table"></i> <span id="masterTitle">JHS 3 - Mock 1 - Raw Scores Master
+                                Sheet</span></h2>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="sortMasterByPosition()"><i
+                                    class="fas fa-sort"></i> Sort by Position</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="printMaster()"><i
+                                    class="fas fa-print"></i> Print</button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:10px;">
+                        <div id="masterAlert"></div>
+                        <!-- RAW SCORES TABLE -->
+                        <div id="masterRawSection">
+                            <p style="font-size:.78rem;color:var(--gray);margin-bottom:8px;"><i
+                                    class="fas fa-info-circle"></i> <strong>Raw Score</strong> = Maths + Science +
+                                English + Social + Best 2 other subjects (from RME, Com, Twi, Career Tech, Creative
+                                Arts, and optional French/Arabic).</p>
+                            <div class="table-wrapper">
+                                <table class="data-table master-table" id="masterRawTable">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th style="text-align:left;min-width:160px;">CANDIDATE'S NAME</th>
+                                            <th>ENG</th>
+                                            <th>MATH</th>
+                                            <th>SCI</th>
+                                            <th>SOC</th>
+                                            <th>RME</th>
+                                            <th>COM</th>
+                                            <th>TWI</th>
+                                            <th>FRE</th>
+                                            <th>BDT</th>
+                                            <th>CREA</th>
+                                            <th>ARA</th>
+                                            <th style="min-width:60px;background:#fff3e0;color:#e65100;">TOTAL<br>MARKS
+                                            </th>
+                                            <th style="min-width:60px;background:#e8f5e9;color:#2e7d32;">RAW<br>SCORE
+                                            </th>
+                                            <th style="min-width:50px;">POS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="masterRawBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- GRADES TABLE -->
+                        <div id="masterGradesSection" style="display:none;">
+                            <p style="font-size:.78rem;color:var(--gray);margin-bottom:8px;"><i
+                                    class="fas fa-info-circle"></i> <strong>Aggregate</strong> = Grade(Maths) +
+                                Grade(Science) + Grade(English) + Grade(Social) + 2 smallest grades from other subjects.
+                            </p>
+                            <div class="table-wrapper">
+                                <table class="data-table master-table" id="masterGradesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th style="text-align:left;min-width:160px;">CANDIDATE'S NAME</th>
+                                            <th>ENG</th>
+                                            <th>MATH</th>
+                                            <th>SCI</th>
+                                            <th>SOC</th>
+                                            <th>RME</th>
+                                            <th>COM</th>
+                                            <th>TWI</th>
+                                            <th>FRE</th>
+                                            <th>BDT</th>
+                                            <th>CREA</th>
+                                            <th>ARA</th>
+                                            <th style="min-width:60px;background:#e8f5e9;color:#2e7d32;">AGG</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="masterGradesBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== REPORTS PAGE ===== -->
+            <div class="page" id="page-reports">
+                <div class="sub-tabs">
+                    <button type="button" class="sub-tab active" onclick="switchReportClass('JHS3')"
+                        id="report-tab-JHS3">JHS 3</button>
+                </div>
+                <!-- Mock selector -->
+                <div class="sub-tabs" style="margin-top:0;">
+                    <span
+                        style="font-size:.78rem;font-weight:700;color:var(--primary);align-self:center;margin-right:4px;">MOCK:</span>
+                    <button type="button" class="sub-tab mock-tab active" onclick="switchReportMock(1)"
+                        id="report-mock-tab-1">1</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(2)"
+                        id="report-mock-tab-2">2</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(3)"
+                        id="report-mock-tab-3">3</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(4)"
+                        id="report-mock-tab-4">4</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(5)"
+                        id="report-mock-tab-5">5</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(6)"
+                        id="report-mock-tab-6">6</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(7)"
+                        id="report-mock-tab-7">7</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(8)"
+                        id="report-mock-tab-8">8</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(9)"
+                        id="report-mock-tab-9">9</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(10)"
+                        id="report-mock-tab-10">10</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(11)"
+                        id="report-mock-tab-11">11</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(12)"
+                        id="report-mock-tab-12">12</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(13)"
+                        id="report-mock-tab-13">13</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(14)"
+                        id="report-mock-tab-14">14</button>
+                    <button type="button" class="sub-tab mock-tab" onclick="switchReportMock(15)"
+                        id="report-mock-tab-15">15</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-file-pdf"></i> <span id="reportTitle">JHS 3 - Mock 1 - Candidate
+                                Reports</span></h2>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="printAllReports()"><i
+                                class="fas fa-print"></i> Print All Reports</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="reportAlert"></div>
+                        <p style="font-size:.82rem;color:var(--gray);margin-bottom:12px;">Select a candidate to view
+                            their
+                            Mock report card.</p>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>SN</th>
+                                        <th style="text-align:left;">Candidate Name</th>
+                                        <th>Raw Score</th>
+                                        <th>Aggregate</th>
+                                        <th>Position</th>
+                                        <th style="text-align:center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Mock Report Card -->
+                <div class="card" id="reportCard" style="display:none;width:100%;max-width:100%;margin:0 auto;">
+                    <!-- Header -->
+                    <div
+                        style="background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:white;padding:14px 20px;display:flex;align-items:center;gap:14px;">
+                        <div id="reportLogo"
+                            style="width:55px;height:55px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--primary);flex-shrink:0;overflow:hidden;">
+                            <i class="fas fa-graduation-cap" id="reportLogoIcon"></i>
+                            <img id="reportLogoImg" src=""
+                                style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;">
+                        </div>
+                        <div style="flex:1;">
+                            <h1 style="font-size:17px;font-weight:700;margin-bottom:2px;">BAREKESE D/A JUNIOR HIGH
+                                SCHOOL 'A'</h1>
+                            <p style="font-size:10px;opacity:.95;">Atwima Nwabiagya North District, Ashanti Region,
+                                Ghana</p>
+                            <p style="font-size:10px;opacity:.9;"><i class="fas fa-envelope"></i> <span
+                                    id="rptEmail">barekesedajhsa@gmail.com</span> &nbsp; <i class="fas fa-phone"></i>
+                                <span id="rptPhone">+233 XX XXX XXXX</span>
+                            </p>
+                        </div>
+                        <div
+                            style="text-align:center;background:rgba(255,255,255,.2);border-radius:8px;padding:6px 14px;flex-shrink:0;">
+                            <div style="font-size:11px;font-weight:700;" id="rptMockLabel">MOCK 1</div>
+                            <div style="font-size:10px;opacity:.85;" id="rptYear">2025/2026</div>
+                        </div>
+                    </div>
+
+                    <!-- Student info bar -->
+                    <div
+                        style="background:#f8f9fa;padding:8px 20px;border-bottom:2px solid var(--primary);display:flex;justify-content:space-between;align-items:center;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div id="rptPhoto"
+                                style="width:50px;height:50px;border-radius:50%;border:2px solid var(--primary);background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gray);flex-shrink:0;overflow:hidden;">
+                                <i class="fas fa-user" id="rptPhotoIcon"></i>
+                                <img id="rptPhotoImg" src=""
+                                    style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%;">
+                            </div>
+                            <div>
+                                <h2 style="font-size:17px;font-weight:700;color:var(--dark);" id="rptName">--</h2>
+                                <p style="font-size:11px;color:var(--gray);"><span
+                                        style="color:var(--primary);font-weight:600;">Index:</span> <span
+                                        id="rptIndex">--</span> &nbsp;|&nbsp; <span
+                                        style="color:var(--primary);font-weight:600;">Class:</span> <span
+                                        id="rptClass">--</span></p>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:14px;">
+                            <div style="text-align:center;">
+                                <div style="font-size:26px;font-weight:800;color:var(--primary);line-height:1;"
+                                    id="rptGrade">-</div>
+                                <div style="font-size:9px;color:var(--gray);">OVERALL GRADE</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding:12px 20px;">
+                        <!-- Stats row -->
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
+                            <div style="background:#e8f5e9;border-radius:8px;padding:8px;text-align:center;">
+                                <div style="font-size:20px;font-weight:700;color:var(--success);" id="rptRawScore">--
+                                </div>
+                                <div style="font-size:9px;color:var(--gray);text-transform:uppercase;">Raw Score</div>
+                            </div>
+                            <div style="background:#e3f2fd;border-radius:8px;padding:8px;text-align:center;">
+                                <div style="font-size:20px;font-weight:700;color:var(--primary);" id="rptAggregate">--
+                                </div>
+                                <div style="font-size:9px;color:var(--gray);text-transform:uppercase;">Aggregate</div>
+                            </div>
+                            <div style="background:#fff3e0;border-radius:8px;padding:8px;text-align:center;">
+                                <div style="font-size:20px;font-weight:700;color:var(--warning);" id="rptPos">--</div>
+                                <div style="font-size:9px;color:var(--gray);text-transform:uppercase;">Position</div>
+                            </div>
+                        </div>
+
+                        <!-- Subject Table -->
+                        <div style="border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;margin-bottom:12px;">
+                            <table style="width:100%;border-collapse:collapse;font-size:11px;" id="rptTable">
+                                <thead>
+                                    <tr style="background:var(--primary);color:white;">
+                                        <th style="padding:6px 10px;text-align:left;font-weight:600;">Subject</th>
+                                        <th style="padding:6px 10px;text-align:center;font-weight:600;">Raw Score (/100)
+                                        </th>
+                                        <th style="padding:6px 10px;text-align:center;font-weight:600;">Grade</th>
+                                        <th style="padding:6px 10px;text-align:left;font-weight:600;">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rptTableBody" style="background:white;"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Grade Key -->
+                        <div
+                            style="background:#f8f9fa;border-radius:8px;padding:8px 12px;margin-bottom:10px;border:1px solid #e0e0e0;">
+                            <p style="font-size:9px;color:var(--gray);font-weight:600;">GRADE KEY: &nbsp;
+                                <span style="color:#2e7d32;">1 (90-100 Highest)</span> &nbsp;
+                                <span style="color:#1565c0;">2 (80-89 Higher)</span> &nbsp;
+                                <span style="color:#e65100;">3 (70-79 High)</span> &nbsp;
+                                <span style="color:#6a1b9a;">4 (60-69 High Avg)</span> &nbsp;
+                                <span style="color:#f39c12;">5 (55-59 Average)</span> &nbsp;
+                                <span style="color:#795548;">6 (50-54 Low Avg)</span> &nbsp;
+                                <span style="color:#455a64;">7 (40-49 Low)</span> &nbsp;
+                                <span style="color:#c62828;">8 (35-39 Lower)</span> &nbsp;
+                                <span style="color:#b71c1c;">9 (&lt;35 Lowest)</span>
+                            </p>
+                        </div>
+
+
+
+                        <!-- Footer stamp -->
+                        <div style="text-align:center;padding-top:8px;border-top:1px dashed #ccc;margin-top:8px;">
+                            <p style="font-size:9px;color:var(--gray);">This is an official Mock Report Card. <span
+                                    id="rptMockFooter">Mock 1</span> | <span id="rptYearFooter">2025/2026</span></p>
+                            <div class="no-print" style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="printSingleReport()"><i
+                                        class="fas fa-print"></i> Print Report</button>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="backToReportList()"><i
+                                        class="fas fa-arrow-left"></i> Back to List</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ANALYSIS PAGE ===== -->
+            <div class="page" id="page-analysis">
+                <div class="sub-tabs">
+                    <button type="button" class="sub-tab active" onclick="switchAnalysisMock(1)"
+                        id="analysis-mock-tab-1">Mock 1</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(2)" id="analysis-mock-tab-2">Mock
+                        2</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(3)" id="analysis-mock-tab-3">Mock
+                        3</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(4)" id="analysis-mock-tab-4">Mock
+                        4</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(5)" id="analysis-mock-tab-5">Mock
+                        5</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(6)" id="analysis-mock-tab-6">Mock
+                        6</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(7)" id="analysis-mock-tab-7">Mock
+                        7</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(8)" id="analysis-mock-tab-8">Mock
+                        8</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(9)" id="analysis-mock-tab-9">Mock
+                        9</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(10)"
+                        id="analysis-mock-tab-10">Mock 10</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(11)"
+                        id="analysis-mock-tab-11">Mock 11</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(12)"
+                        id="analysis-mock-tab-12">Mock 12</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(13)"
+                        id="analysis-mock-tab-13">Mock 13</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(14)"
+                        id="analysis-mock-tab-14">Mock 14</button>
+                    <button type="button" class="sub-tab" onclick="switchAnalysisMock(15)"
+                        id="analysis-mock-tab-15">Mock 15</button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-bar"></i> <span id="analysisTitle">Mock 1 — Performance
+                                Analysis</span></h2>
+                        <div style="display:flex;gap:8px;">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="printAnalysis()"><i
+                                    class="fas fa-print"></i> Print</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="analysisAlert"></div>
+                        <!-- Summary Cards -->
+                        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;"
+                            id="analysisSummary">
+                            <div
+                                style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);padding:14px;text-align:center;">
+                                <div style="font-size:28px;font-weight:800;" id="anaTotalStudents">0</div>
+                                <div style="font-size:11px;opacity:.9;">Total Students</div>
+                            </div>
+                            <div
+                                style="background:linear-gradient(135deg,var(--success),#219a52);color:white;border-radius:var(--radius);padding:14px;text-align:center;">
+                                <div style="font-size:28px;font-weight:800;" id="anaClassAvg">0</div>
+                                <div style="font-size:11px;opacity:.9;">Class Average</div>
+                            </div>
+                            <div
+                                style="background:linear-gradient(135deg,var(--warning),#e67e22);color:white;border-radius:var(--radius);padding:14px;text-align:center;">
+                                <div style="font-size:28px;font-weight:800;" id="anaBestScore">0</div>
+                                <div style="font-size:11px;opacity:.9;">Best Raw Score</div>
+                            </div>
+                            <div
+                                style="background:linear-gradient(135deg,var(--danger),#c0392b);color:white;border-radius:var(--radius);padding:14px;text-align:center;">
+                                <div style="font-size:28px;font-weight:800;" id="anaWorstScore">0</div>
+                                <div style="font-size:11px;opacity:.9;">Lowest Raw Score</div>
+                            </div>
+                            <div
+                                style="background:linear-gradient(135deg,#8e44ad,#6c3483);color:white;border-radius:var(--radius);padding:14px;text-align:center;">
+                                <div style="font-size:28px;font-weight:800;" id="anaAggPassRate">0%</div>
+                                <div style="font-size:11px;opacity:.9;">Aggregate Pass Rate</div>
+                                <div style="font-size:9px;opacity:.7;margin-top:2px;">Benchmark: ≤<span
+                                        id="anaAggBenchmark">30</span></div>
+                            </div>
+                        </div>
+                        <!-- Aggregate Benchmark Selector -->
+                        <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+                            <label style="font-size:.85rem;font-weight:600;color:var(--dark);"><i
+                                    class="fas fa-filter"></i> Aggregate Pass Benchmark:</label>
+                            <select class="form-select" id="aggBenchmarkSelect" onchange="updateAggBenchmark()"
+                                style="width:auto;min-width:120px;">
+                                <option value="6">≤ 6 (Excellent)</option>
+                                <option value="12">≤ 12 (Good)</option>
+                                <option value="18">≤ 18 (Credit)</option>
+                                <option value="24">≤ 24 (Pass)</option>
+                                <option value="30" selected>≤ 30 (Acceptable)</option>
+                                <option value="36">≤ 36 (Weak Pass)</option>
+                                <option value="42">≤ 42 (Borderline)</option>
+                                <option value="48">≤ 48 (At Risk)</option>
+                            </select>
+                            <span style="font-size:.78rem;color:var(--gray);">Students with aggregate ≤ benchmark count
+                                as passed</span>
+                        </div>
+                        <!-- Subject Analysis Table -->
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-header">
+                                <h2><i class="fas fa-book"></i> Subject Performance</h2>
+                            </div>
+                            <div class="card-body" style="padding:10px;">
+                                <div class="table-wrapper">
+                                    <table class="data-table" id="analysisSubjectTable" style="font-size:1rem;">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-size:1rem;padding:12px 10px;">Subject</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Highest</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Lowest</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Average</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Passes (50+)</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Failures (&lt;50)</th>
+                                                <th style="font-size:1rem;padding:12px 10px;">Pass Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="analysisSubjectBody" style="font-size:1rem;"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Grade Distribution -->
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-header">
+                                <h2><i class="fas fa-poll"></i> Grade Distribution (Raw Score)</h2>
+                            </div>
+                            <div class="card-body" style="padding:10px;">
+                                <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:6px;"
+                                    id="gradeDistGrid">
+                                    <!-- Grade 1-9 bars generated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Top & Bottom Performers -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2><i class="fas fa-trophy"></i> Top 5 Performers</h2>
+                                </div>
+                                <div class="card-body" style="padding:10px;">
+                                    <div class="table-wrapper">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pos</th>
+                                                    <th style="text-align:left;">Name</th>
+                                                    <th>Raw Score</th>
+                                                    <th>Aggregate</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="topPerformersBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2><i class="fas fa-exclamation-triangle"></i> Bottom 5 (Need Attention)</h2>
+                                </div>
+                                <div class="card-body" style="padding:10px;">
+                                    <div class="table-wrapper">
+                                        <table class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pos</th>
+                                                    <th style="text-align:left;">Name</th>
+                                                    <th>Raw Score</th>
+                                                    <th>Aggregate</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bottomPerformersBody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== HELP PAGE ===== -->
+            <div class="page" id="page-help">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-question-circle"></i> Help & Guide</h2>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                            <div>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-database"></i> Database</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    Add all JHS 3 students here first. Each student needs a <strong>name</strong>,
+                                    <strong>gender</strong>, and <strong>index number</strong>.
+                                    Once added, student names automatically appear in all Mock tally sheets. You can
+                                    edit or delete students anytime.
+                                </p>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-edit"></i> Tally Sheets</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    Select a <strong>Mock</strong> (1–15) and a <strong>Subject</strong>, then enter
+                                    each student's raw score (0–100).
+                                    Grades, positions, and remarks are calculated automatically. <strong>French</strong>
+                                    and <strong>Arabic</strong> are optional — only enter scores for students taking
+                                    them.
+                                    Click <strong>Save Scores</strong> after each subject to store data.
+                                </p>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-table"></i> Master Sheet</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    View all subjects at once for any Mock. Toggle between <strong>Raw Scores</strong>
+                                    and <strong>Grades & Aggregate</strong> views.
+                                    <strong>Raw Score</strong> = Core 4 (Maths, Science, English, Social) + best 2 other
+                                    subjects.
+                                    <strong>Aggregate</strong> = sum of grades for Core 4 + 2 smallest grades from
+                                    others. Lower aggregate = better.
+                                </p>
+                            </div>
+                            <div>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-file-pdf"></i> Reports</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    Generate individual student report cards. Click <strong>View</strong> to see a
+                                    student's full report.
+                                    Click <strong>Print Report</strong> to print a single report on A4. Use
+                                    <strong>Print All Reports</strong> to batch-print every student's report.
+                                </p>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-chart-bar"></i> Analysis</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    See class-wide statistics for any Mock: total students, class average, best/worst
+                                    scores,
+                                    subject-by-subject breakdown (highest, lowest, average, pass rate), grade
+                                    distribution chart, and top/bottom performers.
+                                </p>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-cog"></i> Settings</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">
+                                    Update school email, phone, academic year, and upload a school logo.
+                                    Toggle optional subjects (French/Arabic). Use <strong>Backup Data</strong> to export
+                                    all data as a JSON file,
+                                    and <strong>Restore Backup</strong> to import it back. <strong>Clear All
+                                        Data</strong> wipes everything permanently.
+                                </p>
+                                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:10px;"><i
+                                        class="fas fa-info-circle"></i> Grade Key</h3>
+                                <p style="font-size:.85rem;color:var(--gray);line-height:1.6;">
+                                    <strong>1</strong> = 90-100 (Highest) &nbsp; <strong>2</strong> = 80-89 (Higher)
+                                    &nbsp; <strong>3</strong> = 70-79 (High)<br>
+                                    <strong>4</strong> = 60-69 (High Avg) &nbsp; <strong>5</strong> = 55-59 (Average)
+                                    &nbsp; <strong>6</strong> = 50-54 (Low Avg)<br>
+                                    <strong>7</strong> = 40-49 (Low) &nbsp; <strong>8</strong> = 35-39 (Lower) &nbsp;
+                                    <strong>9</strong> = Below 35 (Lowest)
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            style="margin-top:20px;padding:14px;background:#e3f2fd;border-radius:8px;border-left:4px solid var(--primary);">
+                            <p style="font-size:.85rem;color:var(--dark);margin:0;">
+                                <i class="fas fa-lightbulb" style="color:var(--primary);"></i> <strong>Tip:</strong> All
+                                data is saved automatically in your browser's local storage.
+                                Remember to use <strong>Backup Data</strong> regularly to avoid losing data if you clear
+                                your browser cache.
+                            </p>
+                        </div>
+                        <div style="margin-top:12px;text-align:center;">
+                            <p style="font-size:.78rem;color:var(--gray);"><strong>Support:</strong> @Owusu Labs —
+                                0249445742/0209089245</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SETTINGS PAGE ===== -->
+            <div class="page" id="page-settings">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-cog"></i> System Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group"><label class="form-label">School Email</label><input type="email"
+                                    class="form-input" id="setEmail" value="barekesedajhsa@gmail.com"></div>
+                            <div class="form-group"><label class="form-label">School Phone</label><input type="text"
+                                    class="form-input" id="setPhone" value="+233 XX XXX XXXX"></div>
+                            <div class="form-group"><label class="form-label">Academic Year</label><input type="text"
+                                    class="form-input" id="setYear" value="2025/2026"></div>
+                            <div class="form-group"><label class="form-label">School Logo</label><input type="file"
+                                    class="form-input" id="setSchoolLogo" accept="image/*">
+                                <div id="logoPreview"
+                                    style="width:60px;height:60px;border:2px dashed #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:8px;overflow:hidden;">
+                                    <span style="font-size:.7rem;color:var(--gray);">Logo</span>
+                                </div>
+                            </div>
+
+                            <!-- Optional subjects toggle -->
+                            <div class="form-group">
+                                <label class="form-label">Optional Subjects (School-wide)</label>
+                                <div style="display:flex;gap:10px;margin-top:6px;">
+                                    <label
+                                        style="display:flex;align-items:center;gap:6px;font-size:.85rem;cursor:pointer;"><input
+                                            type="checkbox" id="toggleFrench"
+                                            onchange="toggleOptionalSubject('FRENCH',this.checked)" checked>
+                                        French</label>
+                                    <label
+                                        style="display:flex;align-items:center;gap:6px;font-size:.85rem;cursor:pointer;"><input
+                                            type="checkbox" id="toggleArabic"
+                                            onchange="toggleOptionalSubject('ARABIC',this.checked)"> Arabic</label>
+                                </div>
+                                <p style="font-size:.72rem;color:var(--gray);margin-top:4px;">Only enable subjects
+                                    offered at your school.</p>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                            <button type="button" class="btn btn-primary" onclick="saveSettings()"><i
+                                    class="fas fa-save"></i> Save Settings</button>
+                            <button type="button" class="btn btn-warning" onclick="exportData()"><i
+                                    class="fas fa-download"></i> Backup Data</button>
+                            <label class="btn btn-info" style="cursor:pointer;"><i class="fas fa-upload"></i> Restore
+                                Backup <input type="file" accept=".json" style="display:none;"
+                                    onchange="importData(this)"></label>
+                            <button type="button" class="btn btn-danger" onclick="clearAllData()"><i
+                                    class="fas fa-trash"></i> Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end main-container -->
+        <div class="footer">Mock Grading System &mdash; BAREKESE D/A JHS 'A' &mdash; @Owusu Labs 0249445742/0209089245
+            @2026</div>
+    </div><!-- end mainApp -->
+
+    <!-- ADD STUDENT MODAL -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Add Candidate</h3><button type="button" class="modal-close"
+                    onclick="closeStudentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column:1/-1;"><label class="form-label">Full Name</label><input
+                            type="text" class="form-input" id="stuName" placeholder="Student's full name"></div>
+                    <div class="form-group"><label class="form-label">Gender</label><select class="form-select"
+                            id="stuGender">
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">Index Number</label><input type="text"
+                            class="form-input" id="stuIndex"></div>
+                    <div class="form-group" style="grid-column:1/-1;"><label class="form-label">Student
+                            Photo</label><input type="file" class="form-input" id="stuPhoto" accept="image/*">
+                        <div id="stuPhotoPreview"
+                            style="width:80px;height:80px;border:2px dashed #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:8px;overflow:hidden;">
+                            <span style="font-size:.7rem;color:var(--gray);">Preview</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-outline"
+                    onclick="closeStudentModal()">Cancel</button><button type="button" class="btn btn-success"
+                    onclick="saveStudent()"><i class="fas fa-save"></i> Add Candidate</button></div>
+        </div>
+    </div>
+
+    <!-- EDIT STUDENT MODAL -->
+    <div class="modal-overlay" id="editStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit Candidate</h3><button type="button" class="modal-close"
+                    onclick="closeEditStudentModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column:1/-1;"><label class="form-label">Full Name</label><input
+                            type="text" class="form-input" id="editStuName"></div>
+                    <div class="form-group"><label class="form-label">Gender</label><select class="form-select"
+                            id="editStuGender">
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">Index Number</label><input type="text"
+                            class="form-input" id="editStuIndex" readonly style="background:#f5f5f5;"></div>
+                    <div class="form-group" style="grid-column:1/-1;"><label class="form-label">Student
+                            Photo</label><input type="file" class="form-input" id="editStuPhoto" accept="image/*">
+                        <div id="editStuPhotoPreview"
+                            style="width:80px;height:80px;border:2px dashed #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:8px;overflow:hidden;">
+                            <span style="font-size:.7rem;color:var(--gray);">Preview</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-outline"
+                    onclick="closeEditStudentModal()">Cancel</button><button type="button" class="btn btn-success"
+                    onclick="updateStudent()"><i class="fas fa-save"></i> Update Candidate</button></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA STORE =====
+        var db = { JHS3: [] };
+        var photos = {};
+        // student photo storage: photos[indexNumber] = base64 image
+        // scores[class][mock][subject][indexNumber] = rawScore (0-100)
+        var scores = { JHS3: {} };
+        var photos = {};
+        var settings = {
+            email: 'barekesedajhsa@gmail.com', phone: '+233 XX XXX XXXX', year: '2025/2026',
+            schoolLogo: null
+        };
+        var currentClass = 'JHS3';
+        var currentMock = 1;
+        var currentMasterMock = 1;
+        var currentReportMock = 1;
+        var currentSubject = 'ENGLISH';
+        var currentReportClass = 'JHS3';
+        var currentMasterClass = 'JHS3';
+        var currentMasterView = 'raw';
+        var editingStudentIndex = -1;
+
+        // Subjects: PE removed, French and Arabic are optional
+        var SUBJECTS = {
+            ENGLISH: { name: 'English Language', active: true, optional: false },
+            MATHS: { name: 'Mathematics', active: true, optional: false },
+            SCIENCE: { name: 'Integrated Science', active: true, optional: false },
+            SOCIAL: { name: 'Social Studies', active: true, optional: false },
+            RME: { name: 'Religious & Moral Ed.', active: true, optional: false },
+            ICT: { name: 'Computing', active: true, optional: false },
+            TWILANG: { name: 'Ghanaian Language (Twi)', active: true, optional: false },
+            FRENCH: { name: 'French', active: true, optional: true },
+            BDT: { name: 'Career Technology', active: true, optional: false },
+            CREATIVE: { name: 'Creative Arts', active: true, optional: false },
+            ARABIC: { name: 'Arabic', active: false, optional: true }
+        };
+        var SUBJECT_KEYS = ['ENGLISH', 'MATHS', 'SCIENCE', 'SOCIAL', 'RME', 'ICT', 'TWILANG', 'FRENCH', 'BDT', 'CREATIVE', 'ARABIC'];
+        // Core 4 (always used in Raw Score / Aggregate)
+        var CORE4 = ['MATHS', 'SCIENCE', 'ENGLISH', 'SOCIAL'];
+        // Other subjects (best 2 raw scores / best 2 grades used)
+        var OTHER_KEYS = ['RME', 'ICT', 'TWILANG', 'FRENCH', 'BDT', 'CREATIVE', 'ARABIC'];
+
+        // ===== STORAGE =====
+        function loadData() {
+            try {
+                var d = localStorage.getItem('mock_db_v1');
+                var s = localStorage.getItem('mock_scores_v1');
+                var st = localStorage.getItem('mock_settings_v1');
+                var p = localStorage.getItem('mock_photos_v1');
+                if (d) db = JSON.parse(d);
+                if (s) scores = JSON.parse(s);
+                if (st) settings = JSON.parse(st);
+                if (p) photos = JSON.parse(p);
+            } catch (e) { }
+        }
+        function saveData() {
+            localStorage.setItem('mock_db_v1', JSON.stringify(db));
+            localStorage.setItem('mock_scores_v1', JSON.stringify(scores));
+            localStorage.setItem('mock_settings_v1', JSON.stringify(settings));
+            localStorage.setItem('mock_photos_v1', JSON.stringify(photos));
+        }
+
+        // ===== HELPERS =====
+        function calcGrade(score) {
+            if (score >= 90) return '1';
+            if (score >= 80) return '2';
+            if (score >= 70) return '3';
+            if (score >= 60) return '4';
+            if (score >= 55) return '5';
+            if (score >= 50) return '6';
+            if (score >= 40) return '7';
+            if (score >= 35) return '8';
+            return '9';
+        }
+        function getRemarks(score) {
+            if (score >= 90) return 'Highest';
+            if (score >= 80) return 'Higher';
+            if (score >= 70) return 'High';
+            if (score >= 60) return 'High Average';
+            if (score >= 55) return 'Average';
+            if (score >= 50) return 'Low Average';
+            if (score >= 40) return 'Low';
+            if (score >= 35) return 'Lower';
+            return 'Lowest';
+        }
+        function getOrdinal(n) {
+            if (n > 3 && n < 21) return 'th';
+            switch (n % 10) { case 1: return 'st'; case 2: return 'nd'; case 3: return 'rd'; default: return 'th'; }
+        }
+        function getScore(cls, mock, subj, index) {
+            try { return parseFloat(scores[cls][mock][subj][index]) || 0; } catch (e) { return 0; }
+        }
+        function setScore(cls, mock, subj, index, val) {
+            if (!scores[cls]) scores[cls] = {};
+            if (!scores[cls][mock]) scores[cls][mock] = {};
+            if (!scores[cls][mock][subj]) scores[cls][mock][subj] = {};
+            scores[cls][mock][subj][index] = val;
+        }
+
+        // Calculate raw score for a student in a mock
+        // Raw Score = sum of CORE4 raw scores + best 2 raw scores from active OTHER_KEYS
+        function calcRawScore(cls, mock, student) {
+            var core = 0;
+            for (var i = 0; i < CORE4.length; i++) {
+                core += getScore(cls, mock, CORE4[i], student.index);
+            }
+            var others = [];
+            for (var j = 0; j < OTHER_KEYS.length; j++) {
+                var sk = OTHER_KEYS[j];
+                if (!SUBJECTS[sk].active) continue;
+                var sc = getScore(cls, mock, sk, student.index);
+                others.push(sc); // include all scores including 0/absent
+            }
+            others.sort(function (a, b) { return b - a; });
+            var best2 = others.slice(0, 2).reduce(function (a, b) { return a + b; }, 0);
+            return core + best2;
+        }
+
+        // Calculate aggregate for a student in a mock
+        // Aggregate = sum of grades of CORE4 + 2 smallest grades from active OTHER_KEYS (with scores)
+        function calcAggregate(cls, mock, student) {
+            var coreGradeSum = 0;
+            for (var i = 0; i < CORE4.length; i++) {
+                var sc = getScore(cls, mock, CORE4[i], student.index);
+                coreGradeSum += parseInt(calcGrade(sc));
+            }
+            var otherGrades = [];
+            for (var j = 0; j < OTHER_KEYS.length; j++) {
+                var sk = OTHER_KEYS[j];
+                if (!SUBJECTS[sk].active) continue;
+                var s = getScore(cls, mock, sk, student.index);
+                // Always include grade - absent/0 scores get Grade 9
+                otherGrades.push(parseInt(calcGrade(s)));
+            }
+            otherGrades.sort(function (a, b) { return a - b; }); // ascending — smaller grade = better
+            var best2g = otherGrades.slice(0, 2).reduce(function (a, b) { return a + b; }, 0);
+            return coreGradeSum + best2g;
+        }
+
+        function getGradeColor(g) {
+            var map = { '1': '#2e7d32', '2': '#1565c0', '3': '#e65100', '4': '#6a1b9a', '5': '#f39c12', '6': '#795548', '7': '#455a64', '8': '#c62828', '9': '#b71c1c' };
+            return map[g] || '#333';
+        }
+
+        // ===== LOGO =====
+        function updateLogoDisplay() {
+            if (settings.schoolLogo) {
+                ['loginLogoImg', 'headerLogoImg', 'reportLogoImg'].forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) { el.src = settings.schoolLogo; el.style.display = 'block'; }
+                });
+                ['loginLogoIcon', 'headerLogoIcon', 'reportLogoIcon'].forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+            }
+        }
+
+        // ===== AUTH =====
+        function doLogin() {
+            var user = document.getElementById('loginUser').value.trim();
+            var pass = document.getElementById('loginPass').value;
+            if (user === 'admin' && pass === '1234') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                loadData();
+                loadSettings();
+                updateLogoDisplay();
+                switchPage('database');
+            } else {
+                var a = document.getElementById('loginAlert');
+                a.innerHTML = '<div class="login-alert-modern"><i class="fas fa-exclamation-circle"></i> Invalid username or password</div>';
+                setTimeout(function () { a.innerHTML = ''; }, 3000);
+            }
+        }
+        function togglePassword() {
+            var passInput = document.getElementById('loginPass');
+            var toggleIcon = document.getElementById('togglePass');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        function doLogout() { location.reload(); }
+
+        // ===== PAGE SWITCHING =====
+        function switchPage(page) {
+            document.querySelectorAll('.page').forEach(function (p) { p.classList.remove('active'); });
+            document.querySelectorAll('.nav-tab').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('page-' + page).classList.add('active');
+            document.getElementById('tab-' + page).classList.add('active');
+            if (page === 'database') renderDatabase();
+            if (page === 'tally') renderTally();
+            if (page === 'master') renderMaster();
+            if (page === 'reports') renderReportsList();
+            if (page === 'analysis') renderAnalysis();
+        }
+
+        // ===== DATABASE =====
+        function switchClassTab(cls) {
+            currentClass = cls;
+            document.querySelectorAll('[id^="db-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('db-tab-' + cls).classList.add('active');
+            document.getElementById('dbTitle').textContent = cls.replace('JHS', 'JHS ') + ' Student Database';
+            renderDatabase();
+        }
+        function renderDatabase() {
+            var tbody = document.getElementById('dbTableBody');
+            var empty = document.getElementById('dbEmpty');
+            var students = db[currentClass] || [];
+            tbody.innerHTML = '';
+            if (students.length === 0) { empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var photoSrc = photos[s.index] || '';
+                var photoHtml = photoSrc ?
+                    '<img src="' + photoSrc + '" style="width:45px;height:45px;object-fit:cover;border-radius:50%;border:2px solid #e0e0e0;">' :
+                    '<div style="width:45px;height:45px;border-radius:50%;border:2px solid #e0e0e0;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gray);"><i class="fas fa-user"></i></div>';
+                tbody.innerHTML += '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + photoHtml + '</td>' +
+                    '<td style="text-align:left;font-weight:600;">' + s.name + '</td>' +
+                    '<td>' + s.gender + '</td>' +
+                    '<td>' + s.index + '</td>' +
+                    '<td style="text-align:center;">' +
+                    '<button type="button" class="btn btn-primary btn-xs" onclick="editStudent(' + i + ')"><i class="fas fa-edit"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-xs" onclick="deleteStudent(' + i + ')" style="margin-left:4px;"><i class="fas fa-trash"></i></button>' +
+                    '</td></tr>';
+            }
+        }
+        function openStudentModal() {
+            document.getElementById('stuName').value = '';
+            document.getElementById('stuGender').value = 'MALE';
+            var nextNum = (db[currentClass] || []).length + 1;
+            var yr = settings.year.split('/')[0] || '2026';
+            document.getElementById('stuIndex').value = 'BDJHS' + currentClass.replace('JHS', '') + '-' + yr + '-' + String(nextNum).padStart(3, '0');
+            document.getElementById('studentModal').classList.add('active');
+        }
+        function closeStudentModal() { document.getElementById('studentModal').classList.remove('active'); }
+        function saveStudent() {
+            var name = document.getElementById('stuName').value.trim();
+            var gender = document.getElementById('stuGender').value;
+            var index = document.getElementById('stuIndex').value;
+            if (!name) { alert('Please enter student name'); return; }
+            if (!db[currentClass]) db[currentClass] = [];
+            db[currentClass].push({ name: name, gender: gender, index: index });
+            // Save photo if uploaded
+            var photoFile = document.getElementById('stuPhoto');
+            if (photoFile.files && photoFile.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    photos[index] = e.target.result;
+                    saveData();
+                    closeStudentModal();
+                    renderDatabase();
+                    showAlert('dbAlert', 'Student added successfully!', 'success');
+                };
+                reader.readAsDataURL(photoFile.files[0]);
+                return;
+            }
+            saveData();
+            closeStudentModal();
+            renderDatabase();
+            showAlert('dbAlert', 'Student added successfully!', 'success');
+        }
+        function editStudent(idx) {
+            var s = (db[currentClass] || [])[idx];
+            if (!s) return;
+            editingStudentIndex = idx;
+            document.getElementById('editStuName').value = s.name;
+            document.getElementById('editStuGender').value = s.gender;
+            document.getElementById('editStuIndex').value = s.index;
+            // Load photo preview
+            var photoSrc = photos[s.index] || '';
+            var preview = document.getElementById('editStuPhotoPreview');
+            if (photoSrc) {
+                preview.innerHTML = '<img src="' + photoSrc + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+            } else {
+                preview.innerHTML = '<span style="font-size:.7rem;color:var(--gray);">Preview</span>';
+            }
+            document.getElementById('editStuPhoto').value = '';
+            document.getElementById('editStudentModal').classList.add('active');
+        }
+        function closeEditStudentModal() { document.getElementById('editStudentModal').classList.remove('active'); }
+        function updateStudent() {
+            var students = db[currentClass] || [];
+            if (editingStudentIndex < 0 || editingStudentIndex >= students.length) return;
+            var oldIndex = students[editingStudentIndex].index;
+            students[editingStudentIndex].name = document.getElementById('editStuName').value.trim();
+            students[editingStudentIndex].gender = document.getElementById('editStuGender').value;
+            // Update photo if new one uploaded
+            var photoFile = document.getElementById('editStuPhoto');
+            if (photoFile.files && photoFile.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    photos[oldIndex] = e.target.result;
+                    saveData();
+                    closeEditStudentModal();
+                    renderDatabase();
+                    showAlert('dbAlert', 'Student updated!', 'success');
+                };
+                reader.readAsDataURL(photoFile.files[0]);
+                return;
+            }
+            saveData();
+            closeEditStudentModal();
+            renderDatabase();
+            showAlert('dbAlert', 'Student updated!', 'success');
+        }
+        function deleteStudent(idx) {
+            if (!confirm('Delete this student?')) return;
+            var s = db[currentClass][idx];
+            if (s && s.index && photos[s.index]) {
+                delete photos[s.index];
+            }
+            db[currentClass].splice(idx, 1);
+            saveData();
+            renderDatabase();
+        }
+        function clearClassData() {
+            if (!confirm('Clear ALL students from ' + currentClass + '?')) return;
+            var students = db[currentClass] || [];
+            for (var i = 0; i < students.length; i++) {
+                if (students[i].index && photos[students[i].index]) {
+                    delete photos[students[i].index];
+                }
+            }
+            db[currentClass] = [];
+            scores[currentClass] = {};
+            saveData();
+            renderDatabase();
+            showAlert('dbAlert', 'Class data cleared.', 'warning');
+        }
+
+        // ===== TALLY =====
+        function switchTallyClass(cls) {
+            currentClass = cls;
+            document.querySelectorAll('[id^="tally-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('tally-tab-' + cls).classList.add('active');
+            renderTally();
+        }
+        function switchMock(n) {
+            currentMock = n;
+            document.querySelectorAll('[id^="mock-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('mock-tab-' + n).classList.add('active');
+            renderTally();
+        }
+        function switchTallySubject(subj) {
+            currentSubject = subj;
+            document.querySelectorAll('[id^="subj-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('subj-tab-' + subj).classList.add('active');
+            renderTally();
+        }
+        function renderTally() {
+            var subjInfo = SUBJECTS[currentSubject];
+            var isOptional = subjInfo.optional;
+            document.getElementById('tallyTitle').textContent = currentClass.replace('JHS', 'JHS ') + ' — Mock ' + currentMock + ' — ' + subjInfo.name + ' Tally Sheet' + (isOptional ? ' (Optional)' : '');
+            var tbody = document.getElementById('tallyTableBody');
+            var students = db[currentClass] || [];
+            tbody.innerHTML = '';
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray);">No students in database. Add students first.</td></tr>';
+                return;
+            }
+            var totals = [];
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var sc = getScore(currentClass, currentMock, currentSubject, s.index);
+                var grade = calcGrade(sc);
+                var remarks = getRemarks(sc);
+                totals.push({ idx: i, sc: sc });
+            }
+            // Calculate positions
+            var sorted = totals.slice().sort(function (a, b) { return b.sc - a.sc; });
+            var posMap = {};
+            for (var p = 0; p < sorted.length; p++) {
+                // handle ties
+                if (p > 0 && sorted[p].sc === sorted[p - 1].sc) {
+                    posMap[sorted[p].idx] = posMap[sorted[p - 1].idx];
+                } else {
+                    posMap[sorted[p].idx] = (p + 1) + getOrdinal(p + 1);
+                }
+            }
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var sc = totals[i].sc;
+                var grade = calcGrade(sc);
+                var remarks = getRemarks(sc);
+                var rowId = 'tally-' + i;
+                var gradeStyle = 'color:' + getGradeColor(grade) + ';font-weight:700;';
+                tbody.innerHTML += '<tr id="' + rowId + '">' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td style="text-align:left;font-weight:600;min-width:180px;">' + s.name + (isOptional ? ' <span style="font-size:.65rem;color:#e74c3c;">(opt)</span>' : '') + '</td>' +
+                    '<td>' + currentClass.replace('JHS', 'JHS ') + '</td>' +
+                    '<td><input type="number" id="' + rowId + '-score" value="' + (sc || '') + '" min="0" max="100" oninput="validateExamScore(this)" onchange="updateTallyRow(' + i + ')" style="width:65px;" placeholder="0-100"></td>' +
+                    '<td class="grade-cell" id="' + rowId + '-grade" style="' + gradeStyle + '">' + grade + '</td>' +
+                    '<td class="pos-cell" id="' + rowId + '-pos">' + posMap[i] + '</td>' +
+                    '<td id="' + rowId + '-remarks">' + remarks + '</td>' +
+                    '</tr>';
+            }
+        }
+        function updateTallyRow(idx) {
+            var rowId = 'tally-' + idx;
+            var sc = parseFloat(document.getElementById(rowId + '-score').value) || 0;
+            var grade = calcGrade(sc);
+            var remarks = getRemarks(sc);
+            document.getElementById(rowId + '-grade').textContent = grade;
+            document.getElementById(rowId + '-grade').style.color = getGradeColor(grade);
+            document.getElementById(rowId + '-remarks').textContent = remarks;
+            // Save to scores
+            var s = (db[currentClass] || [])[idx];
+            if (s) setScore(currentClass, currentMock, currentSubject, s.index, sc);
+            // Recalculate positions
+            recalcTallyPositions();
+        }
+        function recalcTallyPositions() {
+            var students = db[currentClass] || [];
+            var totals = [];
+            for (var i = 0; i < students.length; i++) {
+                var sc = parseFloat(document.getElementById('tally-' + i + '-score').value) || 0;
+                totals.push({ idx: i, sc: sc });
+            }
+            var sorted = totals.slice().sort(function (a, b) { return b.sc - a.sc; });
+            for (var p = 0; p < sorted.length; p++) {
+                var tiedPos = p;
+                for (var k = p - 1; k >= 0; k--) {
+                    if (sorted[k].sc === sorted[p].sc) tiedPos = k;
+                    else break;
+                }
+                var posText = (tiedPos + 1) + getOrdinal(tiedPos + 1);
+                document.getElementById('tally-' + sorted[p].idx + '-pos').textContent = posText;
+            }
+        }
+        function saveTallyScores() {
+            // Also read from DOM before saving
+            var students = db[currentClass] || [];
+            for (var i = 0; i < students.length; i++) {
+                var sc = parseFloat(document.getElementById('tally-' + i + '-score') ? document.getElementById('tally-' + i + '-score').value : 0) || 0;
+                setScore(currentClass, currentMock, currentSubject, students[i].index, sc);
+            }
+            saveData();
+            showAlert('tallyAlert', 'Mock ' + currentMock + ' ' + SUBJECTS[currentSubject].name + ' scores saved!', 'success');
+        }
+        function validateExamScore(input) {
+            var val = parseFloat(input.value);
+            if (val > 100) { alert('Score cannot exceed 100!'); input.value = 100; input.focus(); }
+            if (val < 0) { input.value = 0; }
+        }
+        function printTally() {
+            document.body.classList.add('printing-tally');
+            window.print();
+            document.body.classList.remove('printing-tally');
+        }
+
+        // ===== MASTER SHEET =====
+        function switchMasterClass(cls) {
+            currentMasterClass = cls;
+            document.querySelectorAll('[id^="master-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('master-tab-' + cls).classList.add('active');
+            renderMaster();
+        }
+        function switchMasterMock(n) {
+            currentMasterMock = n;
+            document.querySelectorAll('[id^="master-mock-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('master-mock-tab-' + n).classList.add('active');
+            renderMaster();
+        }
+        function switchMasterView(v) {
+            currentMasterView = v;
+            document.getElementById('masterViewRaw').classList.toggle('active', v === 'raw');
+            document.getElementById('masterViewGrades').classList.toggle('active', v === 'grades');
+            document.getElementById('masterRawSection').style.display = v === 'raw' ? 'block' : 'none';
+            document.getElementById('masterGradesSection').style.display = v === 'grades' ? 'block' : 'none';
+            renderMaster();
+        }
+        function renderMaster() {
+            var label = currentMasterView === 'raw' ? 'Raw Scores Master Sheet' : 'Grades & Aggregate Master Sheet';
+            document.getElementById('masterTitle').textContent = currentMasterClass.replace('JHS', 'JHS ') + ' — Mock ' + currentMasterMock + ' — ' + label;
+            var students = db[currentMasterClass] || [];
+            if (currentMasterView === 'raw') {
+                renderMasterRaw(students);
+            } else {
+                renderMasterGrades(students);
+            }
+        }
+        function renderMasterRaw(students) {
+            var tbody = document.getElementById('masterRawBody');
+            tbody.innerHTML = '';
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="16" style="text-align:center;padding:20px;color:var(--gray);">No students in database.</td></tr>';
+                return;
+            }
+            var data = [];
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var subjectScores = {};
+                var totalMarks = 0;
+                for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                    var sk = SUBJECT_KEYS[j];
+                    var sc = getScore(currentMasterClass, currentMasterMock, sk, s.index);
+                    subjectScores[sk] = sc;
+                    if (SUBJECTS[sk].active) totalMarks += sc;
+                }
+                var rawScore = calcRawScore(currentMasterClass, currentMasterMock, s);
+                data.push({ name: s.name, subjects: subjectScores, totalMarks: totalMarks, rawScore: rawScore });
+            }
+            data.sort(function (a, b) { return b.rawScore - a.rawScore; });
+            for (var i = 0; i < data.length; i++) {
+                var sd = data[i];
+                var pos = (i + 1) + getOrdinal(i + 1);
+                // handle ties
+                if (i > 0 && sd.rawScore === data[i - 1].rawScore) pos = (i) + getOrdinal(i); // same position
+                var row = '<tr><td>' + (i + 1) + '</td><td style="text-align:left;font-weight:600;">' + sd.name + '</td>';
+                for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                    var sk = SUBJECT_KEYS[j];
+                    if (!SUBJECTS[sk].active) { row += '<td style="color:#ccc;">-</td>'; continue; }
+                    var sc = sd.subjects[sk];
+                    row += '<td>' + (sc >= 0 ? sc : '-') + '</td>';
+                }
+                row += '<td class="total-cell">' + sd.totalMarks.toFixed(0) + '</td>';
+                row += '<td style="font-weight:700;background:#e8f5e9;color:#2e7d32;">' + sd.rawScore.toFixed(0) + '</td>';
+                row += '<td class="pos-cell">' + pos + '</td>';
+                row += '</tr>';
+                tbody.innerHTML += row;
+            }
+        }
+        function renderMasterGrades(students) {
+            var tbody = document.getElementById('masterGradesBody');
+            tbody.innerHTML = '';
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="14" style="text-align:center;padding:20px;color:var(--gray);">No students in database.</td></tr>';
+                return;
+            }
+            var data = [];
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var subjectGrades = {};
+                for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                    var sk = SUBJECT_KEYS[j];
+                    var sc = getScore(currentMasterClass, currentMasterMock, sk, s.index);
+                    subjectGrades[sk] = calcGrade(sc); // Grade 9 for absent/0 scores
+                }
+                var agg = calcAggregate(currentMasterClass, currentMasterMock, s);
+                data.push({ name: s.name, grades: subjectGrades, aggregate: agg });
+            }
+            data.sort(function (a, b) { return a.aggregate - b.aggregate }); // lower aggregate = better
+            for (var i = 0; i < data.length; i++) {
+                var sd = data[i];
+                var row = '<tr><td>' + (i + 1) + '</td><td style="text-align:left;font-weight:600;">' + sd.name + '</td>';
+                for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                    var sk = SUBJECT_KEYS[j];
+                    if (!SUBJECTS[sk].active) { row += '<td style="color:#ccc;">-</td>'; continue; }
+                    var g = sd.grades[sk];
+                    var gc = g !== '-' ? getGradeColor(g) : '#ccc';
+                    row += '<td style="color:' + gc + ';font-weight:700;">' + g + '</td>';
+                }
+                row += '<td style="font-weight:700;background:#e8f5e9;color:#2e7d32;">' + sd.aggregate + '</td>';
+                row += '</tr>';
+                tbody.innerHTML += row;
+            }
+        }
+        function sortMasterByPosition() { renderMaster(); showAlert('masterAlert', 'Sorted!', 'success'); }
+        function printMaster() {
+            document.body.classList.add('printing-master');
+            window.print();
+            document.body.classList.remove('printing-master');
+        }
+
+        // ===== REPORTS =====
+        function switchReportClass(cls) {
+            currentReportClass = cls;
+            document.querySelectorAll('[id^="report-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('report-tab-' + cls).classList.add('active');
+            document.getElementById('reportTitle').textContent = cls.replace('JHS', 'JHS ') + ' — Mock ' + currentReportMock + ' — Student Reports';
+            document.getElementById('reportCard').style.display = 'none';
+            document.querySelector('#page-reports .card:not(#reportCard)').style.display = 'block';
+            renderReportsList();
+        }
+        function switchReportMock(n) {
+            currentReportMock = n;
+            document.querySelectorAll('[id^="report-mock-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('report-mock-tab-' + n).classList.add('active');
+            document.getElementById('reportTitle').textContent = currentReportClass.replace('JHS', 'JHS ') + ' — Mock ' + n + ' — Student Reports';
+            backToReportList();
+            renderReportsList();
+        }
+        function renderReportsList() {
+            var tbody = document.getElementById('reportTableBody');
+            var students = db[currentReportClass] || [];
+            tbody.innerHTML = '';
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--gray);">No students in database.</td></tr>';
+                return;
+            }
+            var data = [];
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var rawScore = calcRawScore(currentReportClass, currentReportMock, s);
+                var agg = calcAggregate(currentReportClass, currentReportMock, s);
+                data.push({ idx: i, name: s.name, rawScore: rawScore, aggregate: agg });
+            }
+            data.sort(function (a, b) { return b.rawScore - a.rawScore; });
+            for (var i = 0; i < data.length; i++) {
+                var sd = data[i];
+                var pos = (i + 1) + getOrdinal(i + 1);
+                tbody.innerHTML += '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td style="text-align:left;font-weight:600;">' + sd.name + '</td>' +
+                    '<td><strong>' + sd.rawScore + '</strong></td>' +
+                    '<td><span style="color:#2e7d32;font-weight:700;">' + sd.aggregate + '</span></td>' +
+                    '<td>' + pos + '</td>' +
+                    '<td><button type="button" class="btn btn-primary btn-sm" onclick="generateReport(' + sd.idx + ')"><i class="fas fa-eye"></i> View</button></td>' +
+                    '</tr>';
+            }
+        }
+        function generateReport(studentIdx) {
+            var s = (db[currentReportClass] || [])[studentIdx];
+            if (!s) return;
+            document.getElementById('rptName').textContent = s.name;
+            document.getElementById('rptIndex').textContent = s.index;
+            document.getElementById('rptClass').textContent = currentReportClass.replace('JHS', 'JHS ');
+            var photoSrc = photos[s.index] || '';
+            var rptPhotoImg = document.getElementById('rptPhotoImg');
+            var rptPhotoIcon = document.getElementById('rptPhotoIcon');
+            if (photoSrc) {
+                rptPhotoImg.src = photoSrc;
+                rptPhotoImg.style.display = 'block';
+                rptPhotoIcon.style.display = 'none';
+            } else {
+                rptPhotoImg.style.display = 'none';
+                rptPhotoIcon.style.display = 'block';
+            }
+            // Load student photo
+            var photoSrc = photos[s.index] || '';
+            var rptPhotoImg = document.getElementById('rptPhotoImg');
+            var rptPhotoIcon = document.getElementById('rptPhotoIcon');
+            if (photoSrc) {
+                rptPhotoImg.src = photoSrc;
+                rptPhotoImg.style.display = 'block';
+                rptPhotoIcon.style.display = 'none';
+            } else {
+                rptPhotoImg.style.display = 'none';
+                rptPhotoIcon.style.display = 'block';
+            }
+            document.getElementById('rptEmail').textContent = settings.email;
+            document.getElementById('rptPhone').textContent = settings.phone;
+            document.getElementById('rptYear').textContent = settings.year;
+            document.getElementById('rptMockLabel').textContent = 'MOCK ' + currentReportMock;
+            document.getElementById('rptMockFooter').textContent = 'Mock ' + currentReportMock;
+            document.getElementById('rptYearFooter').textContent = settings.year;
+
+
+
+            // Build subject rows
+            var tbody = document.getElementById('rptTableBody');
+            tbody.innerHTML = '';
+            var overallTotal = 0;
+            var overallCount = 0;
+            for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                var sk = SUBJECT_KEYS[j];
+                if (!SUBJECTS[sk].active) continue;
+                var sc = getScore(currentReportClass, currentReportMock, sk, s.index);
+                var grade = calcGrade(sc);
+                var remarks = getRemarks(sc);
+                var gradeColor = getGradeColor(grade);
+                var scoreStyle = sc >= 70 ? 'background:#e8f5e9;color:#2e7d32;' : sc >= 50 ? 'background:#fff3e0;color:#e65100;' : 'background:#ffebee;color:#c62828;';
+                overallTotal += sc;
+                overallCount++;
+                tbody.innerHTML += '<tr>' +
+                    '<td style="padding:5px 10px;border-bottom:1px solid #f0f0f0;text-align:left;"><strong>' + SUBJECTS[sk].name + '</strong>' + (SUBJECTS[sk].optional ? ' <span style="font-size:.6rem;background:#fff3e0;color:#e65100;padding:1px 4px;border-radius:6px;">optional</span>' : '') + '</td>' +
+                    '<td style="padding:5px 10px;text-align:center;border-bottom:1px solid #f0f0f0;"><span style="display:inline-block;padding:2px 10px;border-radius:10px;font-weight:600;font-size:11px;' + scoreStyle + '">' + sc + '</span></td>' +
+                    '<td style="padding:5px 10px;text-align:center;border-bottom:1px solid #f0f0f0;"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:12px;background:' + gradeColor + '20;color:' + gradeColor + ';">' + grade + '</span></td>' +
+                    '<td style="padding:5px 10px;border-bottom:1px solid #f0f0f0;font-size:10px;">' + remarks + '</td>' +
+                    '</tr>';
+            }
+            var rawScore = calcRawScore(currentReportClass, currentReportMock, s);
+            var agg = calcAggregate(currentReportClass, currentReportMock, s);
+            // Overall grade based on average of active subjects
+            var avgScore = overallCount > 0 ? overallTotal / overallCount : 0;
+            var oGrade = calcGrade(avgScore);
+
+            // Position
+            var allStudents = db[currentReportClass] || [];
+            var allData = [];
+            for (var i = 0; i < allStudents.length; i++) {
+                allData.push({ idx: i, rawScore: calcRawScore(currentReportClass, currentReportMock, allStudents[i]) });
+            }
+            allData.sort(function (a, b) { return b.rawScore - a.rawScore; });
+            var pos = 'N/A';
+            for (var i = 0; i < allData.length; i++) {
+                if (allData[i].idx === studentIdx) { pos = (i + 1) + getOrdinal(i + 1); break; }
+            }
+
+            document.getElementById('rptGrade').textContent = oGrade;
+            document.getElementById('rptGrade').style.color = getGradeColor(oGrade);
+            document.getElementById('rptRawScore').textContent = rawScore;
+            document.getElementById('rptAggregate').textContent = agg;
+            document.getElementById('rptPos').textContent = pos;
+
+            document.getElementById('reportCard').style.display = 'block';
+            document.querySelector('#page-reports .card:not(#reportCard)').style.display = 'none';
+            document.getElementById('reportCard').scrollIntoView({ behavior: 'smooth' });
+        }
+        function backToReportList() {
+            document.getElementById('reportCard').style.display = 'none';
+            var listCard = document.querySelector('#page-reports > .card:not(#reportCard)');
+            if (listCard) listCard.style.display = 'block';
+            renderReportsList();
+        }
+        function printSingleReport() {
+            document.body.classList.add('printing-report');
+            // Ensure only the report card is visible
+            var reportCard = document.getElementById('reportCard');
+            var originalDisplay = reportCard.style.display;
+            reportCard.style.display = 'block';
+            window.print();
+            reportCard.style.display = originalDisplay;
+            document.body.classList.remove('printing-report');
+        }
+        function printAllReports() {
+            var students = db[currentReportClass] || [];
+            if (students.length === 0) { alert('No students to print'); return; }
+            var printWindow = window.open('', '_blank');
+            var printContent = '';
+            for (var i = 0; i < students.length; i++) {
+                generateReport(i);
+                var card = document.getElementById('reportCard');
+                var clone = card.cloneNode(true);
+                clone.querySelectorAll('.no-print').forEach(function (el) { el.remove(); });
+                var pageBreak = (i < students.length - 1) ? 'page-break-after:always;' : '';
+                printContent += '<div style="' + pageBreak + '">' + clone.outerHTML + '</div>';
+            }
+            var printStyles = '<style>' +
+                '@page{size:A4 portrait;margin:3mm}' +
+                'body{font-family:Poppins,Arial,sans-serif;margin:0;padding:0;background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+                '.card{box-shadow:none!important;border:none!important;margin:0!important;border-radius:0!important}' +
+                '.rpt-header{padding:5px 8px!important;gap:6px!important}' +
+                '.rpt-header h1{font-size:11px!important;margin-bottom:0!important}' +
+                '.rpt-header p{font-size:6px!important;margin:0!important;line-height:1.2!important}' +
+                '#reportLogo{width:32px!important;height:32px!important;font-size:14px!important}' +
+                '.rpt-info{padding:3px 8px!important}' +
+                '.rpt-info h2{font-size:11px!important}' +
+                '.rpt-info p{font-size:7px!important;margin:0!important}' +
+                '.rpt-body{padding:5px 8px!important}' +
+                '.rpt-stats{gap:3px!important;margin-bottom:3px!important}' +
+                '.rpt-stats div{padding:2px!important;border-radius:3px!important}' +
+                '.rpt-stats div div:first-child{font-size:13px!important}' +
+                '.rpt-stats div div:last-child{font-size:5px!important}' +
+                '.rpt-table-wrap{margin-bottom:3px!important;border-radius:3px!important}' +
+                '.rpt-table{font-size:7px!important}' +
+                '.rpt-table th{padding:2px 5px!important}' +
+                '.rpt-table td{padding:1px 5px!important}' +
+                '.rpt-gradekey{padding:2px 5px!important;margin-bottom:3px!important}' +
+                '.rpt-gradekey p{font-size:5px!important;margin:0!important}' +
+                '.rpt-footer{padding-top:2px!important;margin-top:2px!important}' +
+                '.rpt-footer p{font-size:5px!important;margin:0!important}' +
+                'table{width:100%;border-collapse:collapse}' +
+                'th,td{border:1px solid #ddd}' +
+                '</style>';
+            printWindow.document.write('<html><head><title>Mock ' + currentReportMock + ' Reports</title>' + printStyles + '</head><body>' + printContent + '</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(function () { printWindow.print(); }, 600);
+        }
+
+        // ===== SETTINGS =====
+        function toggleOptionalSubject(key, enabled) {
+            SUBJECTS[key].active = enabled;
+            if (!enabled) {
+                // hide tab
+                var el = document.getElementById('subj-tab-' + key);
+                if (el) el.style.display = enabled ? '' : 'none';
+            } else {
+                var el = document.getElementById('subj-tab-' + key);
+                if (el) el.style.display = '';
+            }
+        }
+        function loadSettings() {
+            document.getElementById('setEmail').value = settings.email;
+            document.getElementById('setPhone').value = settings.phone;
+            document.getElementById('setYear').value = settings.year;
+            if (settings.schoolLogo) {
+                document.getElementById('logoPreview').innerHTML = '<img src="' + settings.schoolLogo + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+            }
+
+            // Apply optional subject visibility
+            if (settings.frenchActive !== undefined) {
+                SUBJECTS.FRENCH.active = settings.frenchActive;
+                document.getElementById('toggleFrench').checked = settings.frenchActive;
+                document.getElementById('subj-tab-FRENCH').style.display = settings.frenchActive ? '' : 'none';
+            }
+            if (settings.arabicActive !== undefined) {
+                SUBJECTS.ARABIC.active = settings.arabicActive;
+                document.getElementById('toggleArabic').checked = settings.arabicActive;
+                document.getElementById('subj-tab-ARABIC').style.display = settings.arabicActive ? '' : 'none';
+            }
+        }
+        function saveSettings() {
+            settings.email = document.getElementById('setEmail').value;
+            settings.phone = document.getElementById('setPhone').value;
+            settings.year = document.getElementById('setYear').value;
+            settings.frenchActive = SUBJECTS.FRENCH.active;
+            settings.arabicActive = SUBJECTS.ARABIC.active;
+            var filesToRead = 0;
+            function checkDone() { filesToRead--; if (filesToRead <= 0) { saveData(); showAlert('', 'Settings saved!', 'success'); } }
+            var logoFile = document.getElementById('setSchoolLogo');
+            if (logoFile.files && logoFile.files[0]) {
+                filesToRead++;
+                var r = new FileReader();
+                r.onload = function (e) { settings.schoolLogo = e.target.result; document.getElementById('logoPreview').innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'; updateLogoDisplay(); checkDone(); };
+                r.readAsDataURL(logoFile.files[0]);
+            }
+
+            if (filesToRead === 0) { saveData(); showAlert('', 'Settings saved!', 'success'); }
+        }
+        function exportData() {
+            var data = { db: db, scores: scores, settings: settings, photos: photos };
+            var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url; a.download = 'mock_backup_' + new Date().toISOString().split('T')[0] + '.json'; a.click();
+            URL.revokeObjectURL(url);
+        }
+        function importData(input) {
+            var file = input.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    var data = JSON.parse(e.target.result);
+                    if (data.db) db = data.db;
+                    if (data.scores) scores = data.scores;
+                    if (data.settings) settings = data.settings;
+                    if (data.photos) photos = data.photos;
+                    saveData();
+                    showAlert('', 'Data imported!', 'success');
+                } catch (err) { alert('Invalid backup file'); }
+            };
+            reader.readAsText(file);
+        }
+        function clearAllData() {
+            if (!confirm('WARNING: This will delete ALL data. Continue?')) return;
+            db = { JHS3: [] };
+            scores = { JHS3: {} };
+            saveData();
+            showAlert('', 'All data cleared.', 'warning');
+            renderDatabase();
+        }
+        function showAlert(containerId, message, type) {
+            var html = '<div class="alert alert-' + type + '"><i class="fas fa-' + (type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle') + '"></i> ' + message + '</div>';
+            if (containerId) {
+                var el = document.getElementById(containerId);
+                if (el) { el.innerHTML = html; setTimeout(function () { el.innerHTML = ''; }, 4000); }
+            } else {
+                var tmp = document.createElement('div');
+                tmp.style.cssText = 'position:fixed;top:80px;right:20px;z-index:9999;min-width:260px;';
+                tmp.innerHTML = html;
+                document.body.appendChild(tmp);
+                setTimeout(function () { document.body.removeChild(tmp); }, 3500);
+            }
+        }
+
+        // Close modals on overlay click
+        document.getElementById('studentModal').addEventListener('click', function (e) { if (e.target === this) closeStudentModal(); });
+        document.getElementById('editStudentModal').addEventListener('click', function (e) { if (e.target === this) closeEditStudentModal(); });
+
+        // Init — Arabic hidden by default (disabled), French shown (enabled)
+        document.getElementById('subj-tab-ARABIC').style.display = 'none';
+
+        // ===== ANALYSIS PAGE =====
+        var currentAnalysisMock = 1;
+
+        function switchAnalysisMock(n) {
+            currentAnalysisMock = n;
+            document.querySelectorAll('[id^="analysis-mock-tab-"]').forEach(function (t) { t.classList.remove('active'); });
+            document.getElementById('analysis-mock-tab-' + n).classList.add('active');
+            document.getElementById('analysisTitle').textContent = 'Mock ' + n + ' — Performance Analysis';
+            renderAnalysis();
+        }
+
+        function renderAnalysis() {
+            var cls = 'JHS3';
+            var mock = currentAnalysisMock;
+            var students = db[cls] || [];
+
+            if (students.length === 0) {
+                document.getElementById('anaTotalStudents').textContent = '0';
+                document.getElementById('anaClassAvg').textContent = '0';
+                document.getElementById('anaBestScore').textContent = '0';
+                document.getElementById('anaWorstScore').textContent = '0';
+                document.getElementById('anaAggPassRate').textContent = '0%';
+                document.getElementById('analysisSubjectBody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray);font-size:1rem;">No students in database.</td></tr>';
+                document.getElementById('gradeDistGrid').innerHTML = '';
+                document.getElementById('topPerformersBody').innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray);">No data.</td></tr>';
+                document.getElementById('bottomPerformersBody').innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray);">No data.</td></tr>';
+                return;
+            }
+
+            // Calculate raw scores and aggregates for all students
+            var studentData = [];
+            var totalRaw = 0;
+            for (var i = 0; i < students.length; i++) {
+                var s = students[i];
+                var raw = calcRawScore(cls, mock, s);
+                var agg = calcAggregate(cls, mock, s);
+                studentData.push({ name: s.name, rawScore: raw, aggregate: agg, index: s.index });
+                totalRaw += raw;
+            }
+            studentData.sort(function (a, b) { return b.rawScore - a.rawScore; });
+
+            // Summary cards
+            document.getElementById('anaTotalStudents').textContent = students.length;
+            document.getElementById('anaClassAvg').textContent = (totalRaw / students.length).toFixed(1);
+            document.getElementById('anaBestScore').textContent = studentData[0].rawScore;
+            document.getElementById('anaWorstScore').textContent = studentData[studentData.length - 1].rawScore;
+
+            // Aggregate pass rate based on benchmark
+            var benchmark = parseInt(document.getElementById('aggBenchmarkSelect').value) || 30;
+            var aggPasses = 0;
+            for (var i = 0; i < studentData.length; i++) {
+                if (studentData[i].aggregate <= benchmark) aggPasses++;
+            }
+            var aggPassRate = ((aggPasses / students.length) * 100).toFixed(1);
+            document.getElementById('anaAggPassRate').textContent = aggPassRate + '%';
+            document.getElementById('anaAggBenchmark').textContent = benchmark;
+
+            // Subject analysis
+            var subjBody = document.getElementById('analysisSubjectBody');
+            subjBody.innerHTML = '';
+            for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                var sk = SUBJECT_KEYS[j];
+                if (!SUBJECTS[sk].active) continue;
+                var scoresList = [];
+                var passes = 0, fails = 0;
+                for (var i = 0; i < students.length; i++) {
+                    var sc = getScore(cls, mock, sk, students[i].index);
+                    if (SUBJECTS[sk].active) {
+                        scoresList.push(sc);
+                        if (sc >= 50) passes++; else fails++;
+                    }
+                }
+                if (scoresList.length === 0) continue;
+                var highest = Math.max.apply(null, scoresList);
+                var lowest = Math.min.apply(null, scoresList);
+                var avg = scoresList.reduce(function (a, b) { return a + b; }, 0) / scoresList.length;
+                var passRate = ((passes / scoresList.length) * 100).toFixed(1);
+                var passColor = passRate >= 70 ? '#2e7d32' : passRate >= 50 ? '#f39c12' : '#c62828';
+                subjBody.innerHTML += '<tr>' +
+                    '<td style="text-align:left;font-weight:600;">' + SUBJECTS[sk].name + '</td>' +
+                    '<td>' + highest + '</td>' +
+                    '<td>' + lowest + '</td>' +
+                    '<td>' + avg.toFixed(1) + '</td>' +
+                    '<td><span style="color:#2e7d32;font-weight:600;">' + passes + '</span></td>' +
+                    '<td><span style="color:#c62828;font-weight:600;">' + fails + '</span></td>' +
+                    '<td><span style="color:' + passColor + ';font-weight:700;">' + passRate + '%</span></td>' +
+                    '</tr>';
+            }
+
+            // Grade distribution
+            var gradeCounts = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0 };
+            for (var i = 0; i < students.length; i++) {
+                var raw = studentData[i].rawScore;
+                var activeSubjects = 0, totalScore = 0;
+                for (var j = 0; j < SUBJECT_KEYS.length; j++) {
+                    var sk = SUBJECT_KEYS[j];
+                    if (!SUBJECTS[sk].active) continue;
+                    var sc = getScore(cls, mock, sk, students[i].index);
+                    if (SUBJECTS[sk].active) { totalScore += sc; activeSubjects++; }
+                }
+                var avgScore = activeSubjects > 0 ? totalScore / activeSubjects : 0;
+                var g = calcGrade(avgScore);
+                gradeCounts[g]++;
+            }
+            var gradeColors = { '1': '#2e7d32', '2': '#1565c0', '3': '#e65100', '4': '#6a1b9a', '5': '#f39c12', '6': '#795548', '7': '#455a64', '8': '#c62828', '9': '#b71c1c' };
+            var gradeLabels = { '1': 'Highest', '2': 'Higher', '3': 'High', '4': 'High Avg', '5': 'Average', '6': 'Low Avg', '7': 'Low', '8': 'Lower', '9': 'Lowest' };
+            var distHtml = '';
+            for (var g = 1; g <= 9; g++) {
+                var count = gradeCounts[String(g)] || 0;
+                var pct = students.length > 0 ? ((count / students.length) * 100).toFixed(0) : 0;
+                var color = gradeColors[String(g)];
+                distHtml += '<div style="text-align:center;">' +
+                    '<div style="background:' + color + '20;color:' + color + ';border-radius:6px;padding:6px;margin-bottom:4px;">' +
+                    '<div style="font-size:20px;font-weight:800;">' + count + '</div>' +
+                    '<div style="font-size:9px;font-weight:600;">' + pct + '%</div>' +
+                    '</div>' +
+                    '<div style="font-size:10px;font-weight:700;color:' + color + ';">Grade ' + g + '</div>' +
+                    '<div style="font-size:8px;color:var(--gray);">' + gradeLabels[String(g)] + '</div>' +
+                    '</div>';
+            }
+            document.getElementById('gradeDistGrid').innerHTML = distHtml;
+
+            // Top 5 performers
+            var topBody = document.getElementById('topPerformersBody');
+            topBody.innerHTML = '';
+            for (var i = 0; i < Math.min(5, studentData.length); i++) {
+                topBody.innerHTML += '<tr>' +
+                    '<td style="font-weight:700;color:var(--primary);">' + (i + 1) + getOrdinal(i + 1) + '</td>' +
+                    '<td style="text-align:left;font-weight:600;">' + studentData[i].name + '</td>' +
+                    '<td style="font-weight:700;">' + studentData[i].rawScore + '</td>' +
+                    '<td style="color:#2e7d32;font-weight:700;">' + studentData[i].aggregate + '</td>' +
+                    '</tr>';
+            }
+
+            // Bottom 5 performers
+            var bottomBody = document.getElementById('bottomPerformersBody');
+            bottomBody.innerHTML = '';
+            var reversed = studentData.slice().reverse();
+            for (var i = 0; i < Math.min(5, reversed.length); i++) {
+                bottomBody.innerHTML += '<tr>' +
+                    '<td style="font-weight:700;color:var(--danger);">' + (studentData.length - i) + getOrdinal(studentData.length - i) + '</td>' +
+                    '<td style="text-align:left;font-weight:600;">' + reversed[i].name + '</td>' +
+                    '<td style="font-weight:700;">' + reversed[i].rawScore + '</td>' +
+                    '<td style="color:#c62828;font-weight:700;">' + reversed[i].aggregate + '</td>' +
+                    '</tr>';
+            }
+        }
+
+        function updateAggBenchmark() {
+            renderAnalysis();
+        }
+
+        function printAnalysis() {
+            document.body.classList.add('printing-analysis');
+            window.print();
+            document.body.classList.remove('printing-analysis');
+        }
+
+        // Photo preview for Add Student
+        document.getElementById('stuPhoto').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    document.getElementById('stuPhotoPreview').innerHTML = '<img src="' + evt.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Photo preview for Edit Student
+        document.getElementById('editStuPhoto').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    document.getElementById('editStuPhotoPreview').innerHTML = '<img src="' + evt.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Photo preview for Add Student
+        document.getElementById('stuPhoto').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    document.getElementById('stuPhotoPreview').innerHTML = '<img src="' + evt.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Photo preview for Edit Student
+        document.getElementById('editStuPhoto').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    document.getElementById('editStuPhotoPreview').innerHTML = '<img src="' + evt.target.result + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Allow login on Enter
+        document.getElementById('loginPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+
+        loadData();
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
